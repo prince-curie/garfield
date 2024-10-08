@@ -13,7 +13,7 @@ class UpdateUserDetails extends Command
      *
      * @var string
      */
-    protected $signature = 'user:update-details';
+    protected $signature = 'user:update-details {user}';
 
     /**
      * The console command description.

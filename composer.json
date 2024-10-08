@@ -50,8 +50,11 @@
         "code-analyses": [
             "./vendor/bin/phpstan analyse"
         ],
-        "model-doc": [
+        "generate-model-doc": [
             "@php artisan ide-helper:models"
+        ],
+        "code-lint": [
+            "./vendor/bin/pint"
         ]
     },
     "extra": {

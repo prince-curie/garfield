@@ -32,7 +32,7 @@ class UpdateUserDetails extends Command
             $userId = (int) $this->argument('user');
 
             $newUserDetails = UserFactory::randomDetails();
-    
+
             User::whereId($userId)->update($newUserDetails);
         } catch (Exception $exception) {
             report($exception);

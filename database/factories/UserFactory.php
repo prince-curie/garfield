@@ -16,6 +16,9 @@ class UserFactory extends Factory
      */
     protected static ?string $password;
 
+    /**
+     * @var string[]
+     */
     protected static array $timezones = ['CET', 'CST', 'GMT+1'];
 
     /**
@@ -45,11 +48,14 @@ class UserFactory extends Factory
         ]);
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function randomDetails(): array
     {
         return [
             'name' => fake()->name(),
-            'timezone' => fake()->randomElement(static::$timezones),
+            'timezone' => (string) fake()->randomElement(static::$timezones),
         ];
     }
 }

@@ -16,8 +16,8 @@ class UserFactory extends Factory
      */
     protected static ?string $password;
 
-    /** 
-     * @var string[] $timezones 
+    /**
+     * @var string[]
      */
     protected static array $timezones = ['CET', 'CST', 'GMT+1'];
 

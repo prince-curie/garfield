@@ -109,6 +109,6 @@ return [
         'user-data-upload-provider' => [
             'changes' => 'data-changes',
             'lock' => 'store-data-changes-for-upload-to-provider',
-        ]
-    ]
+        ],
+    ],
 ];

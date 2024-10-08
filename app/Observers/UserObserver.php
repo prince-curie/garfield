@@ -6,7 +6,6 @@ use App\Jobs\UploadChangesToProvider;
 use App\Models\User;
 use Cache;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
-use Illuminate\Support\Collection;
 
 class UserObserver implements ShouldHandleEventsAfterCommit
 {
@@ -24,18 +23,18 @@ class UserObserver implements ShouldHandleEventsAfterCommit
     public function updated(User $user): void
     {
         $lockKey = (string) config('cache.keys.user-data-upload-provider.lock');
-        
+
         Cache::lock($lockKey, 3)->block(2, function () use ($user) {
             $payload = array_merge(['email' => $user->email, $user->getChanges()]);
-            
+
             $cacheKey = (string) config('cache.keys.user-data-upload-provider.changes');
-            
+
             $data = (array) Cache::get($cacheKey, []);
-            
+
             $currentDataSize = array_push($data, $payload);
-            
+
             $maxSizeOfData = 1000;
-            
+
             if ($currentDataSize >= $maxSizeOfData) {
                 UploadChangesToProvider::dispatch();
 

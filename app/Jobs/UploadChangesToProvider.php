@@ -15,9 +15,7 @@ class UploadChangesToProvider implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Execute the job.
@@ -25,19 +23,19 @@ class UploadChangesToProvider implements ShouldQueue
     public function handle(): void
     {
         $lockKey = (string) config('cache.keys.user-data-upload-provider.lock');
-        
+
         Cache::lock($lockKey, 3)->block(2, function () {
             $cacheKey = (string) config('cache.keys.user-data-upload-provider.changes');
-            
+
             $data = (array) Cache::get($cacheKey, []);
 
             if (empty($data)) {
                 return;
             }
-            
+
             $maxSizeOfData = 1000;
             $dataForUpload = array_splice($data, 0, $maxSizeOfData);
-            
+
             $uploadPayload = $this->preparePayload($dataForUpload);
 
             try {
@@ -50,21 +48,19 @@ class UploadChangesToProvider implements ShouldQueue
 
             Cache::add($cacheKey, $data);
 
-            return;
         });
     }
 
     /**
-     * @param array<int, array<string, string>> $data
-     * 
+     * @param  array<int, array<string, string>>  $data
      * @return array{'batches': array<array{'subscribers': array<int, array<string, string>>}>}
      */
     private function preparePayload(array $data): array
     {
         return [
-            "batches" => [[
-                "subscribers" => $data
-            ]]
+            'batches' => [[
+                'subscribers' => $data,
+            ]],
         ];
     }
 }

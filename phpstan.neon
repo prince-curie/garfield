@@ -9,11 +9,3 @@ parameters:
 
     # The level 9 is the highest level
     level: 8
-
-    # ignoreErrors:
-    #     - '#PHPDoc tag @var#'
-
-    parallel:
-        maximumNumberOfProcesses: 4
-
-    noUnnecessaryCollectionCall: false

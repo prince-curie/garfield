@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Database\Factories\UserFactory;
+use Exception;
 use Illuminate\Console\Command;
 
 class UpdateUserDetails extends Command
@@ -20,17 +21,23 @@ class UpdateUserDetails extends Command
      *
      * @var string
      */
-    protected $description = 'Updates a user firstname, lastname, and timezone to new ransom ones.';
+    protected $description = "Updates a user's firstname, lastname, and timezone to new ransom ones.";
 
     /**
      * Execute the console command.
      */
     public function handle(): void
     {
-        $userId = $this->argument('user');
+        try {
+            $userId = (int) $this->argument('user');
 
-        $newUserDetails = UserFactory::randomDetails();
+            $newUserDetails = UserFactory::randomDetails();
 
-        User::whereId($userId)->update($newUserDetails);
+            User::whereId($userId)->update($newUserDetails);
+        } catch (Exception $exception) {
+            report($exception);
+
+            throw new Exception('System Error');
+        }
     }
 }
